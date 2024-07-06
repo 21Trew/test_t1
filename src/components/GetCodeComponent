@@ -1,0 +1,38 @@
+import React, { useState } from 'react';
+
+const GetCodeComponent = () => {
+    const [code, setCode] = useState('');
+    const [email, setEmail] = useState('');
+
+    const getCode = () => {
+        fetch(`http://193.19.100.32:7000/api/get-code/?email=${email}`)
+            .then(response => response.text())
+            .then(code => {
+                setCode(code)
+                console.log(code)
+            })
+            .catch(error => {
+                console.error('Произошла ошибка:', error);
+            });
+    }
+
+    const handleButtonClick = () => {
+        getCode();
+    }
+
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
+    }
+
+    return (
+        <div>
+            <h2>Получить код</h2>
+            <input type="email" value={email} onChange={handleEmailChange} placeholder="Введите ваш email" />
+            <button onClick={handleButtonClick}>Получить код</button>
+            <p>Ваш код: <input type="password" value={code} readOnly /></p>
+            
+        </div>
+    );
+}
+
+export default GetCodeComponent;
